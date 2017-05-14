@@ -4,21 +4,54 @@
               android:layout_height="match_parent"
               tools:context="com.software.upc.fluency.activity.StudyActivity"
               android:orientation="vertical">
-    <SeekBar
-        android:id="@+id/sb_progress"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_start_time"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:maxHeight="36dip"
-        android:minHeight="36dip"
-        android:paddingLeft="20dp"
-        android:paddingRight="12dp"
-        android:background="@color/white"
-        android:thumb="@drawable/icon_seekbar_pointer"
-        android:thumbOffset="18dp" />
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/playingTime"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="00:00"/>
+        <SeekBar
+            android:id="@+id/study_progress"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:maxHeight="36dip"
+            android:minHeight="36dip"/>
+        <TextView
+            android:id="@+id/totalTime"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="00:00"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+        <ImageButton
+            android:id="@+id/md_play"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_centerVertical="true"
+            android:src="@drawable/play"
+            android:background="#00000000"/>
+        <ImageButton
+            android:id="@+id/md_pause"
+            android:scaleType="centerInside"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:src="@drawable/pause"
+            android:background="#00000000"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/study_text"
         android:layout_width="match_parent"
