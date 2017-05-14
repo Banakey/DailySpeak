@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="com.software.upc.fluency.activity.StudyActivity"
+              android:orientation="vertical">
+    <SeekBar
+        android:id="@+id/sb_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_start_time"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:maxHeight="36dip"
+        android:minHeight="36dip"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp"
+        android:background="@color/white"
+        android:thumb="@drawable/icon_seekbar_pointer"
+        android:thumbOffset="18dp" />
+    <TextView
+        android:id="@+id/study_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20dp"/>
+</LinearLayout>

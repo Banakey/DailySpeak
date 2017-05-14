@@ -1,4 +1,4 @@
-package com.software.upc.fluency.model;
+package com.software.upc.fluency.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.software.upc.fluency.R;
+import com.software.upc.fluency.model.StudyItem;
 
 import java.util.List;
 

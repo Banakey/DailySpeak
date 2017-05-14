@@ -47,6 +47,8 @@
             android:label="@string/title_activity_info"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.StudyActivity">
+        </activity>
     </application>
 
 </manifest>
