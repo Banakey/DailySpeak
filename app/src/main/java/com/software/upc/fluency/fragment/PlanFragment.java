@@ -130,6 +130,7 @@ public class PlanFragment extends Fragment {
                                 Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
                             }
                         });
+                        //TODO 列表刷新
                     }
                 });
                 dlgShowBack.show();
