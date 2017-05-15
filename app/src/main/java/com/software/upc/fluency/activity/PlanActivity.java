@@ -142,4 +142,8 @@ public class PlanActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
+    public String getuserName(){
+        return user.getUsername();
+    }
 }

@@ -2,11 +2,13 @@ package com.software.upc.fluency.model;
 
 import java.io.File;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by jmy on 2017/4/20.
  */
 
-public class Plan {
+public class Plan extends BmobObject {
 
     private String userName;
 

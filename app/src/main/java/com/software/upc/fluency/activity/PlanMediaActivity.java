@@ -11,9 +11,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.software.upc.fluency.R;
-import com.software.upc.fluency.model.StudyItem;
+import com.software.upc.fluency.model.Plan;
 
-public class StudyActivity extends AppCompatActivity {
+public class PlanMediaActivity extends AppCompatActivity {
     private TextView text,total_Time,playing_Time;
     private MediaPlayer mpStudy = new MediaPlayer();
     private ImageButton play,pause;
@@ -25,7 +25,7 @@ public class StudyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_study);
+        setContentView(R.layout.activity_plan_media);
 
         text=(TextView)findViewById(R.id.study_text);
 
@@ -42,16 +42,16 @@ public class StudyActivity extends AppCompatActivity {
         sbStudy.setOnSeekBarChangeListener(new mySeekBarListener());
 
         Bundle b=getIntent().getExtras();
-        StudyItem studyItem =(StudyItem) b.getSerializable("study");
+        Plan plan =(Plan) b.getSerializable("plan");
         //System.out.print(url);
-        text.setText(studyItem.getStudyText());
+        text.setText(plan.getStudyText());
         initMediaPlayer();
     }
 
     public void initMediaPlayer() {
         try {
             mpStudy.reset();
-            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//设置要播放的音频
+            mpStudy = MediaPlayer.create(PlanMediaActivity.this, R.raw.getup);//设置要播放的音频
             //mpStudy.start();//开始播放
             //mpStudy.setDataSource();
             //mpStudy.prepare();

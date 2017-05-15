@@ -49,6 +49,8 @@
         </activity>
         <activity android:name=".activity.StudyActivity">
         </activity>
+        <activity android:name=".activity.PlanMediaActivity">
+        </activity>
     </application>
 
 </manifest>
