@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.software.upc.fluency.R;
+import com.software.upc.fluency.activity.AddPlanActivity;
 import com.software.upc.fluency.activity.PlanActivity;
 import com.software.upc.fluency.activity.PlanMediaActivity;
 import com.software.upc.fluency.adapter.PlanAdapter;
@@ -43,6 +44,14 @@ public class PlanFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
         planList = (ListView) view.findViewById(R.id.plan_list);
+        addPlan = (Button) view.findViewById(R.id.btn_add_plan);
+        addPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),AddPlanActivity.class);
+                startActivity(intent);
+            }
+        });
 
         /*
        * 查询数据

@@ -51,6 +51,8 @@
         </activity>
         <activity android:name=".activity.PlanMediaActivity">
         </activity>
+        <activity android:name=".activity.AddPlanActivity">
+        </activity>
     </application>
 
 </manifest>
