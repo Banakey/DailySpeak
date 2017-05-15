@@ -21,7 +21,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:maxHeight="36dip"
-            android:minHeight="36dip"/>
+            android:minHeight="36dip"
+            android:max="100"/>
         <TextView
             android:id="@+id/totalTime"
             android:layout_height="wrap_content"

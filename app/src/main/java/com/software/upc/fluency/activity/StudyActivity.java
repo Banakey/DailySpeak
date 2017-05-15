@@ -19,9 +19,8 @@ public class StudyActivity extends AppCompatActivity {
     private ImageButton play,pause;
     private SeekBar sbStudy;
     private int totalTime = 0;
-    private Handler hangler = new Handler();
+    private Handler handler = new Handler();
     private boolean flag=true;
-    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,27 +45,16 @@ public class StudyActivity extends AppCompatActivity {
         StudyItem studyItem =(StudyItem) b.getSerializable("study");
         //System.out.print(url);
         text.setText(studyItem.getStudyText());
-//        //BmobFile bmobFile = new BmobFile(studyItem.getStudyFile());
-//        try {
-//            mpStudy.reset();
-//            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//重新设置要播放的音频
-//            mpStudy.start();//开始播放
-////            mpStudy.setDataSource(bmobFile.getFileUrl(StudyActivity.this));
-////            mpStudy.prepare();
-//            setTotalTime();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         initMediaPlayer();
     }
 
     public void initMediaPlayer() {
         try {
             mpStudy.reset();
-            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//重新设置要播放的音频
+            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//设置要播放的音频
             mpStudy.start();//开始播放
             //mpStudy.setDataSource();
-            mpStudy.prepare();
+            //mpStudy.prepare();
             setTotalTime();
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,16 +62,23 @@ public class StudyActivity extends AppCompatActivity {
     }
 
     private class mySeekBarListener implements SeekBar.OnSeekBarChangeListener {
+        /*
+        * SeekBar滚动时的回调函数
+        */
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
         }
-
+        /*
+        * SeekBar开始滚动的回调函数
+        */
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
 
         }
-
+        /*
+        * SeekBar停止滚动的回调函数
+        */
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             mpStudy.seekTo(sbStudy.getProgress()*1000);
@@ -142,7 +137,6 @@ public class StudyActivity extends AppCompatActivity {
         String pos = String.valueOf(timepos/60/10)+String.valueOf(timepos/60%10)
                 +':'+String.valueOf(timepos%60/10)+String.valueOf(timepos%60%10);
         playing_Time.setText(pos);
-
     }
 
 
@@ -157,7 +151,7 @@ public class StudyActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    hangler.post(new Runnable() {
+                    handler.post(new Runnable() {
                         @Override
                         public void run() {
                             updateTimepos();
