@@ -1,7 +1,5 @@
 package com.software.upc.fluency.model;
 
-import java.io.File;
-
 import cn.bmob.v3.BmobObject;
 
 /**
@@ -13,8 +11,6 @@ public class Plan extends BmobObject {
     private String userName;
 
     private String studyTheme;//题目
-    private String studyText;//正文
-    private File studyFile;//视频
 
     public String getUserName() {
         return userName;
@@ -32,19 +28,4 @@ public class Plan extends BmobObject {
         this.studyTheme = studyTheme;
     }
 
-    public String getStudyText() {
-        return studyText;
-    }
-
-    public void setStudyText(String studyText) {
-        this.studyText = studyText;
-    }
-
-    public File getStudyFile() {
-        return studyFile;
-    }
-
-    public void setStudyFile(File studyFile) {
-        this.studyFile = studyFile;
-    }
 }

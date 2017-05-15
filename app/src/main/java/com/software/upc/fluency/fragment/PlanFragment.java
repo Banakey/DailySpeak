@@ -1,6 +1,8 @@
 package com.software.upc.fluency.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ import com.software.upc.fluency.model.Plan;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 
 
@@ -56,9 +59,11 @@ public class PlanFragment extends Fragment {
         /*
        * 查询数据
        * */
+        //Log.e("myapplication", app.getName());
         BmobQuery<Plan> query = new BmobQuery<Plan>();
         query.order("-createdAt");
         query.addWhereEqualTo("userName", userName);
+        //query.addWhereEqualTo("userName",app.getName());
         //返回50条数据，如果不加上这条语句，默认返回10条数据
         //query.setLimit(50);
         //执行查询方法
@@ -69,7 +74,7 @@ public class PlanFragment extends Fragment {
                 Toast.makeText(getActivity(), "加载成功", Toast.LENGTH_SHORT).show();
                 System.out.println("添加数据成功");
                 //创建自定义Adapter的对象
-                PlanAdapter adapter = new PlanAdapter(PlanFragment.this.getActivity(),mPlan);
+                final PlanAdapter adapter = new PlanAdapter(PlanFragment.this.getActivity(),mPlan);
                 //将布局添加到ListView中
                 planList.setAdapter(adapter);
             }
@@ -93,6 +98,52 @@ public class PlanFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),PlanMediaActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        planList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Plan plan = mPlan.get(position);
+                AlertDialog dlgShowBack = new AlertDialog.Builder(getActivity()).create();
+                dlgShowBack.setTitle("提示");
+                dlgShowBack.setMessage("确定删除此条计划？");
+
+
+                dlgShowBack.setButton(DialogInterface.BUTTON_NEGATIVE,"取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dlgShowBack.setButton(DialogInterface.BUTTON_POSITIVE,"确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        plan.delete(PlanFragment.this.getContext(), new DeleteListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+                                Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                dlgShowBack.show();
+                Button btnPositive =
+                        dlgShowBack.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+                Button btnNegative =
+                        dlgShowBack.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                btnNegative.setTextColor(getResources().getColor(R.color.black));
+                btnNegative.setTextSize(18);
+                btnPositive.setTextColor(getResources().getColor(R.color.black));
+                btnPositive.setTextSize(18);
+//                PlanAdapter adapter = new PlanAdapter(PlanFragment.this.getActivity(),mPlan);
+//                adapter.notifyDataSetChanged();
+                return true;
             }
         });
 

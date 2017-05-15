@@ -44,7 +44,7 @@ public class PlanMediaActivity extends AppCompatActivity {
         Bundle b=getIntent().getExtras();
         Plan plan =(Plan) b.getSerializable("plan");
         //System.out.print(url);
-        text.setText(plan.getStudyText());
+        //text.setText(plan.getStudyText());
         initMediaPlayer();
     }
 

@@ -11,14 +11,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.software.upc.fluency.MyApplication;
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.fragment.HomeFragment;
-import com.software.upc.fluency.fragment.InfoFragment;
 import com.software.upc.fluency.fragment.ParterFragment;
 import com.software.upc.fluency.fragment.PlanFragment;
 import com.software.upc.fluency.fragment.TestFragment;
@@ -36,10 +37,13 @@ public class PlanActivity extends AppCompatActivity {
     NavigationView navigationView;
     FrameLayout frameLayout;
 
+    private MyApplication onchangeName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
+
         user = (User) getIntent().getSerializableExtra("user");
 
         fragmentManager = getSupportFragmentManager();
@@ -52,6 +56,15 @@ public class PlanActivity extends AppCompatActivity {
 
         setupView();
         if (savedInstanceState == null) showHome();
+
+        onchangeName = (MyApplication) getApplication();
+        //获得我们的应用程序MyApplication
+        Log.e("myapplication", onchangeName.getName());
+        //将我们放到进程中的全局变量拿出来，看是不是我们曾经设置的值
+        onchangeName.setName(user.getUsername());
+        //OK，现在我们开始修改了
+        Log.e("myapplication", onchangeName.getName());
+        //再看下，这个值改变了没有
     }
 
     private void setupView(){
@@ -96,9 +109,9 @@ public class PlanActivity extends AppCompatActivity {
             case R.id.nav_test:
                 fragmentClass = TestFragment.class;
                 break;
-            case R.id.nav_information:
-                fragmentClass = InfoFragment.class;
-                break;
+//            case R.id.nav_information:
+//                fragmentClass = InfoFragment.class;
+//                break;
             default:
                 fragmentClass = HomeFragment.class;
                 break;

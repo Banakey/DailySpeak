@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.software.upc.fluency.MyApplication;
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.activity.StudyActivity;
 import com.software.upc.fluency.adapter.StudyAdapter;
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
     //定义ListView对象
     private ListView stu_list;
     private Context mContext;
+    private MyApplication app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
