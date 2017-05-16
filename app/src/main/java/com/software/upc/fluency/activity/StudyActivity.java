@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +22,7 @@ public class StudyActivity extends AppCompatActivity {
     private int totalTime = 0;
     private Handler handler = new Handler();
     private boolean flag=true;
+    private StudyItem studyItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +44,20 @@ public class StudyActivity extends AppCompatActivity {
         sbStudy.setOnSeekBarChangeListener(new mySeekBarListener());
 
         Bundle b=getIntent().getExtras();
-        StudyItem studyItem =(StudyItem) b.getSerializable("study");
+        studyItem =(StudyItem) b.getSerializable("study");
         //System.out.print(url);
         text.setText(studyItem.getStudyText());
+        text.setMovementMethod(ScrollingMovementMethod.getInstance());
         initMediaPlayer();
     }
 
     public void initMediaPlayer() {
         try {
-            mpStudy.reset();
-            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//设置要播放的音频
+//            mpStudy.reset();
+//            mpStudy = MediaPlayer.create(StudyActivity.this, R.raw.getup);//设置要播放的音频
             //mpStudy.start();//开始播放
-            //mpStudy.setDataSource();
-            //mpStudy.prepare();
+            mpStudy.setDataSource(studyItem.getFileUrl());
+            mpStudy.prepare();
             setTotalTime();
         } catch (Exception e) {
             e.printStackTrace();

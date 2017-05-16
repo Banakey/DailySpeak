@@ -1,11 +1,13 @@
 package com.software.upc.fluency.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,30 +18,28 @@ import android.widget.Toast;
 
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.activity.AddPlanActivity;
-import com.software.upc.fluency.activity.PlanActivity;
 import com.software.upc.fluency.activity.PlanMediaActivity;
 import com.software.upc.fluency.adapter.PlanAdapter;
 import com.software.upc.fluency.model.Plan;
+import com.software.upc.fluency.model.User;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 public class PlanFragment extends Fragment {
 
-    private List<Plan> mPlan;
+    private List<Plan> mPlan,handleList;
     private ListView planList;
     private String userName;
     private Button addPlan;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        userName = ((PlanActivity) activity).getuserName();
-    }
+    private PlanAdapter adapter;
+    private Handler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,33 +55,51 @@ public class PlanFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        //handler
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what)
+                {
+                    case 1:
+                        handleList = (List<Plan>) msg.obj;
+                        adapter = new PlanAdapter(getActivity(),handleList);
+                        planList.setAdapter(adapter);
+                }
+            }
+        };
 
         /*
-       * 查询数据
+       * 查询计划
        * */
-        //Log.e("myapplication", app.getName());
+        User user = BmobUser.getCurrentUser(User.class);
+        userName = user.getUsername();
         BmobQuery<Plan> query = new BmobQuery<Plan>();
         query.order("-createdAt");
         query.addWhereEqualTo("userName", userName);
-        //query.addWhereEqualTo("userName",app.getName());
-        //返回50条数据，如果不加上这条语句，默认返回10条数据
-        //query.setLimit(50);
         //执行查询方法
-        query.findObjects(PlanFragment.this.getContext(),new FindListener<Plan>() {
+        query.findObjects(new FindListener<Plan>() {
             @Override
-            public void onSuccess(List<Plan> list) {
-                mPlan = list;
-                Toast.makeText(getActivity(), "加载成功", Toast.LENGTH_SHORT).show();
-                System.out.println("添加数据成功");
-                //创建自定义Adapter的对象
-                final PlanAdapter adapter = new PlanAdapter(PlanFragment.this.getActivity(),mPlan);
-                //将布局添加到ListView中
-                planList.setAdapter(adapter);
-            }
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
-                System.out.println("添加数据失败");
+            public void done(List<Plan> list, BmobException e) {
+                if(e==null){
+                    for (Plan plan : list) {
+                        plan.getStudyTheme();
+                    }
+                    mPlan = list;
+                    Message msg = new Message();
+                    msg.what = 1;
+                    msg.obj = mPlan;
+                    handler.sendMessage(msg);
+                    //创建自定义Adapter的对象
+                    //adapter = new PlanAdapter(PlanFragment.this.getActivity(),list);
+                    //将布局添加到ListView中
+                    //planList.setAdapter(adapter);
+                    Toast.makeText(getActivity(), "加载成功", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                }
             }
         });
 
@@ -104,11 +122,11 @@ public class PlanFragment extends Fragment {
         planList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final int p = position;
                 final Plan plan = mPlan.get(position);
                 AlertDialog dlgShowBack = new AlertDialog.Builder(getActivity()).create();
                 dlgShowBack.setTitle("提示");
                 dlgShowBack.setMessage("确定删除此条计划？");
-
 
                 dlgShowBack.setButton(DialogInterface.BUTTON_NEGATIVE,"取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -119,18 +137,22 @@ public class PlanFragment extends Fragment {
                 dlgShowBack.setButton(DialogInterface.BUTTON_POSITIVE,"确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        plan.delete(PlanFragment.this.getContext(), new DeleteListener() {
+                        plan.delete(new UpdateListener() {
                             @Override
-                            public void onSuccess() {
-                                Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onFailure(int i, String s) {
-                                Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                            public void done(BmobException e) {
+                                if(e==null){
+                                    Log.i("bmob","成功");
+                                    handleList.remove(p);
+                                    Log.i("bmob","handleLlist is +++++"+handleList.toString());
+                                    adapter.notifyDataSetChanged();
+                                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                                    Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
-                        //TODO 列表刷新
+                        //TODO 列表刷
                     }
                 });
                 dlgShowBack.show();
@@ -142,8 +164,6 @@ public class PlanFragment extends Fragment {
                 btnNegative.setTextSize(18);
                 btnPositive.setTextColor(getResources().getColor(R.color.black));
                 btnPositive.setTextSize(18);
-//                PlanAdapter adapter = new PlanAdapter(PlanFragment.this.getActivity(),mPlan);
-//                adapter.notifyDataSetChanged();
                 return true;
             }
         });

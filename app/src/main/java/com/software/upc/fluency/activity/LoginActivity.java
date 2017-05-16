@@ -16,7 +16,8 @@ import android.widget.Toast;
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.model.User;
 
-import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        //Bmob.initialize(this, "bbd2e91e683828d227b28a9ef69683e9");
+        Bmob.initialize(this, "bbd2e91e683828d227b28a9ef69683e9");
         setContentView(R.layout.activity_login);
         initialize();
         sp = getSharedPreferences("userInfo", 0);
@@ -69,35 +70,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 final SharedPreferences.Editor editor = sp.edit();
 
                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
-                    final BmobUser bmobUser = new BmobUser();
-                    bmobUser.setUsername(username);
-                    bmobUser.setPassword(password);
-
-                    bmobUser.login(LoginActivity.this, new SaveListener() {
+                    User user = new User();
+                    user.setUsername(username);
+                    Log.e("username",username);
+                    user.setPassword(password);
+                    Log.e("password",password);
+                    user.login(new SaveListener<User>() {
                         @Override
-                        public void onSuccess() {
-                            //获取到当前用户的信息
-                            editor.putString("USER_NAME", username);
-                            editor.putString("PASSWORD", password);
-                            if(checkBox.isChecked()){
-                                editor.putBoolean("remember", true);
+                        public void done(User user, BmobException e) {
+                            if(e==null){
+                                //存储当前用户的信息到本地
+                                editor.putString("USER_NAME", username);
+                                editor.putString("PASSWORD", password);
+                                if(checkBox.isChecked()){
+                                    editor.putBoolean("remember", true);
+                                }else{
+                                    editor.putBoolean("remember", false);
+                                }
+                                editor.commit();
+
+                                Intent intent = new Intent(LoginActivity.this,PlanActivity.class);
+                                //intent.putExtra("user",user);
+                                startActivity(intent);
+                                //登录成功
+
+                                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                                //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
+                                //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
                             }else{
-                                editor.putBoolean("remember", false);
+                                Toast.makeText(LoginActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
+                                //Log.e("登录失败"+e.getMessage());
                             }
-                            editor.commit();
-
-                            User user = BmobUser.getCurrentUser(LoginActivity.this,User.class);
-                            Intent intent = new Intent(LoginActivity.this,PlanActivity.class);
-                            intent.putExtra("user",user);
-                            startActivity(intent);
-                            //登录成功
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-                            //Toast.makeText(LoginActivity.this, "用户名或密码不正确", Toast.LENGTH_SHORT).show();
-                            Log.d("MainActivity", "报错了" + s.toString());
                         }
                     });
 

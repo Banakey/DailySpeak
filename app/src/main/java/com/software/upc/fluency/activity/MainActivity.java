@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.model.User;
 
-import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_main);
         //System.out.print(55555);
-        Bmob.initialize(this, "bbd2e91e683828d227b28a9ef69683e9");
+
         //System.out.print(666666);
         initialize();
     }
@@ -74,16 +74,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user.setUsername(name);
         user.setEmail(email);
         user.setPassword(password);
-        user.signUp(MainActivity.this, new SaveListener() {
+        user.signUp(new SaveListener<User>() {
             @Override
-            public void onSuccess() {
-                Toast.makeText(MainActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+            public void done(User user, BmobException e) {
+                if(e==null){
+                    Toast.makeText(MainActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
+                    //Log.e("注册失败"+e.getMessage());
+                }
             }
 
-            @Override
-            public void onFailure(int i, String s) {
-                Toast.makeText(MainActivity.this, s.toString(), Toast.LENGTH_SHORT).show();
-            }
+
         });
     }
 }

@@ -1,7 +1,5 @@
 package com.software.upc.fluency.model;
 
-import java.io.File;
-
 import cn.bmob.v3.BmobObject;
 
 /**
@@ -13,23 +11,32 @@ public class StudyItem extends BmobObject{
     //private int studyImage;//图片
     private String studyTheme;//题目
     private String studyText;//正文
-    private File studyFile;//视频
+    //private File studyFile;//视频
+    private String fileUrl;
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
 
     /*
-    定义构造器，创建对象时定义学习项的信息。
-     */
+        定义构造器，创建对象时定义学习项的信息。
+         */
     public StudyItem(String theme, String text){
         this.studyTheme = theme;
         this.studyText = text;
     }
 
-    public File getStudyFile() {
-        return studyFile;
-    }
-
-    public void setStudyFile(File studyFile) {
-        this.studyFile = studyFile;
-    }
+//    public File getStudyFile() {
+//        return studyFile;
+//    }
+//
+//    public void setStudyFile(File studyFile) {
+//        this.studyFile = studyFile;
+//    }
 
     public String getStudyTheme() {
         return studyTheme;
