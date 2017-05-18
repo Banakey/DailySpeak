@@ -3,24 +3,25 @@ package com.software.upc.fluency.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.software.upc.fluency.R;
+import com.software.upc.fluency.base.BaseActivity;
 import com.software.upc.fluency.model.User;
+import com.software.upc.fluency.model.UserModel;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.LogInListener;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private EditText et_username;
     private EditText et_password;
@@ -67,45 +68,94 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.bt_login:
                 final String username = et_username.getText().toString().trim();
                 final String password = et_password.getText().toString();
-                final SharedPreferences.Editor editor = sp.edit();
-
-                if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
-                    User user = new User();
-                    user.setUsername(username);
-                    Log.e("username",username);
-                    user.setPassword(password);
-                    Log.e("password",password);
-                    user.login(new SaveListener<User>() {
-                        @Override
-                        public void done(User user, BmobException e) {
-                            if(e==null){
-                                //存储当前用户的信息到本地
-                                editor.putString("USER_NAME", username);
-                                editor.putString("PASSWORD", password);
-                                if(checkBox.isChecked()){
-                                    editor.putBoolean("remember", true);
-                                }else{
-                                    editor.putBoolean("remember", false);
-                                }
-                                editor.commit();
-
-                                Intent intent = new Intent(LoginActivity.this,PlanActivity.class);
-                                //intent.putExtra("user",user);
-                                startActivity(intent);
-                                //登录成功
-
-                                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
-                                //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
-                            }else{
-                                Toast.makeText(LoginActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
-                                //Log.e("登录失败"+e.getMessage());
-                            }
+                UserModel.getInstance().login(username, password, new LogInListener() {
+                    @Override
+                    public void done(Object o, BmobException e) {
+                        if(e == null){
+                            User user = (User)o;
+                            Log.e("user",user.getAvatar()+user.getObjectId()+user.getUsername());
+                            BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo(user.getObjectId(),user.getUsername(),user.getAvatar());
+                            Log.e("user",bmobIMUserInfo.getUserId());
+                            BmobIM.getInstance().updateUserInfo(bmobIMUserInfo);
+                            Intent intent = new Intent(LoginActivity.this,PlanActivity.class);
+                            startActivity(intent);
+//                            startActivity(ParterActivity.class, null, true);
+                        }else {
+                            toast(e.getMessage() + "(" + e.getErrorCode() + ")");
+                            Log.e("usererror",e.getMessage()+e.getErrorCode());
+//                            if (null == bmobIMUserInfo ){
+//                                Log.e("user",user.getAvatar()+user.getObjectId()+user.getUsername());
+//                            }
+                            //Toast.makeText(LoginActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }
 
-                }else{
-                }
+                    @Override
+                    public void done(Object o, Object o2) {
+
+                    }
+                });
+//                UserModel.getInstance().login(et_username.getText().toString().trim(), et_password.getText().toString(), new LogInListener() {
+//
+//                    @Override
+//                    public void done(Object o, BmobException e) {
+//                        if (e == null) {
+//                            User user =(User) o;
+//                            Log.e("user",user.getObjectId()+"   "+user.getUsername()+"   "+user.getAvatar());
+////                            BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo(user.getObjectId(),user.getUsername(),user.getAvatar());
+//
+////                            BmobIM.getInstance().updateBatchUserInfo(bmobIMUserInfo);
+//                            BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
+
+//                            BmobIM.getInstance().updateUserInfo(bmobIMUserInfo);
+//                            startActivity(ParterActivity.class, null, true);
+//                        } else {
+//                            toast(e.getMessage() + "(" + e.getErrorCode() + ")");
+//                            Log.e("usererror",e.getMessage()+e.getErrorCode());
+//                        }
+//                    }
+//                });
+//                final String username = et_username.getText().toString().trim();
+//                final String password = et_password.getText().toString();
+//                final SharedPreferences.Editor editor = sp.edit();
+//
+//                if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
+//                    User user = new User();
+//                    user.setUsername(username);
+//                    Log.e("username",username);
+//                    user.setPassword(password);
+//                    Log.e("password",password);
+//                    user.login(new SaveListener<User>() {
+//                        @Override
+//                        public void done(User user, BmobException e) {
+//                            if(e==null){
+//                                //存储当前用户的信息到本地
+//                                editor.putString("USER_NAME", username);
+//                                editor.putString("PASSWORD", password);
+//                                if(checkBox.isChecked()){
+//                                    editor.putBoolean("remember", true);
+//                                }else{
+//                                    editor.putBoolean("remember", false);
+//                                }
+//                                editor.commit();
+//
+//                                Intent intent = new Intent(LoginActivity.this,PlanActivity.class);
+//                                //intent.putExtra("user",user);
+//                                startActivity(intent);
+//                                //登录成功
+//
+//                                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+//                                //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
+//                                //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
+//                            }else{
+//                                Toast.makeText(LoginActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
+//                                //Log.e("登录失败"+e.getMessage());
+//                            }
+//                        }
+//                    });
+//
+//                }else{
+//                }
                 break;
             case R.id.bt_go_regist:
                 Intent intent = new Intent(this,MainActivity.class);

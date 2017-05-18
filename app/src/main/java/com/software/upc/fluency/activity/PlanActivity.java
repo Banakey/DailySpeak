@@ -1,11 +1,11 @@
 package com.software.upc.fluency.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.software.upc.fluency.R;
 import com.software.upc.fluency.fragment.HomeFragment;
-import com.software.upc.fluency.fragment.ParterFragment;
 import com.software.upc.fluency.fragment.PlanFragment;
 import com.software.upc.fluency.fragment.TestFragment;
 import com.software.upc.fluency.model.User;
@@ -95,27 +94,36 @@ public class PlanActivity extends AppCompatActivity {
         Class fragmentClass;
         switch (menuItem.getItemId()){
             case R.id.nav_top:
-                fragmentClass = HomeFragment.class;
+                //fragmentClass = HomeFragment.class;
+                HomeFragment homeFragment = new HomeFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,homeFragment).commit();
                 break;
             case R.id.nav_plan:
-                fragmentClass = PlanFragment.class;
+//                fragmentClass = PlanFragment.class;
+                PlanFragment planFragment = new PlanFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,planFragment).commit();
                 break;
             case R.id.nav_parter:
-                fragmentClass = ParterFragment.class;
+//                fragmentClass = ParterFragment.class;
+                Intent intent = new Intent(PlanActivity.this,ParterActivity.class);
+                startActivity(intent);
+//                ParterFragment parterFragment = new ParterFragment();
+//                fragmentManager.beginTransaction().replace(R.id.content_frame,parterFragment).commit();
                 break;
             case R.id.nav_test:
-                fragmentClass = TestFragment.class;
+//                fragmentClass = TestFragment.class;
+                TestFragment testFragment = new TestFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,testFragment).commit();
                 break;
-//            case R.id.nav_information:
-//                fragmentClass = InfoFragment.class;
-//                break;
             default:
-                fragmentClass = HomeFragment.class;
+                HomeFragment home = new HomeFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,home).commit();
+//                fragmentClass = HomeFragment.class;
                 break;
         }
         try {
-            Fragment fragment = (Fragment) fragmentClass.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.content_frame,fragment).commit();
+//            Fragment fragment = (Fragment) fragmentClass.newInstance();
+//            fragmentManager.beginTransaction().replace(R.id.content_frame,fragment).commit();
         }catch (Exception e){
             e.printStackTrace();
         }

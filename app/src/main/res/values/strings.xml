@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">流利说</string>
+    <string name="app_name">英语每日说</string>
     <string name="edt_email">请输入你的邮箱</string>
     <string name="edt_username">请输入你的用户名</string>
     <string name="edt_password">请输入你的密码</string>
@@ -32,5 +32,102 @@
     <string name="hello_plan_fragment">计划</string>
     <string name="hello_test_fragment">测试</string>
     <string name="title_activity_info">InfoActivity</string>
+
+
+    <string name="login_username_hint">请输入用户名&#8230;</string>
+    <string name="login_password_hint">请输入密码&#8230;</string>
+    <string name="login_email_hint">请再次输入密码&#8230;</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="register_txt1">还没有账号？</string>
+    <string name="register_txt2">立即注册 ></string>
+    <string name="login_account">账号 </string>
+    <string name="login_pwd">密码 </string>
+    <string name="login_email">确认密码 </string>
+
+    <string name="main_tab_recent">消息</string>
+    <string name="main_tab_contact">学伴</string>
+    <string name="mian_tab_set">设置</string>
+
+    <string name="add_avator">头像</string>
+    <string name="add_nick">昵称</string>
+    <string name="add_name">账号</string>
+    <string name="agree">接受</string>
+    <string name="new_friend">新的学伴</string>
+
+    <string name="chat">聊天</string>
+    <string name="add_friend">添加学伴</string>
+
+    <string name="set_notify">接收新消息通知</string>
+    <string name="set_myinfo">个人资料</string>
+    <string name="set_blacklist">黑名单</string>
+    <string name="set_voice">声音</string>
+    <string name="set_vibrate">震动</string>
+    <string name="logout">退出登陆</string>
+
+    <string name="longclick_speak">长按说话</string>
+    <string name="picture">照片</string>
+    <string name="camera">拍摄</string>
+    <string name="location">位置</string>
+    <string name="voice_up_tips">手指上滑,取消发送</string>
+    <string name="voice_cancel_tips">松开手指，取消发送</string>
+    <string name="voice_seconds_tips">还可以说%1$s秒</string>
+    <string name="voice_short_tips">录音时间太短</string>
+    <string name="voice_test">语音测评</string>
+    <string name="text_test">文字测评</string>
+
+    <string name="title_activity_user_info">UserInfoActivity</string>
+
+
+    <!-- A -->
+
+    <string name="add_failed">Add Failed</string>
+    <string name="already_in_first_page">Already in First page</string>
+
+    <!-- C -->
+    <string name="cancel">Cancel</string>
+    <string name="commit">Commit</string>
+    <string name="commit_success">Commit Success</string>
+    <string name="confirm">Confirm</string>
+    <string name="continue_test">Continue Test</string>
+
+    <!-- E -->
+    <string name="empty"/>
+    <string name="examining">Examining</string>
+    <string name="exam_manual_end">Do you want to end the exam and commit?</string>
+    <string name="exam_time_out">Time out, do you want to commit?</string>
+    <string name="exit">Exit</string>
+
+    <!-- L -->
+    <string name="last_question">Last Question</string>
+
+    <!-- M -->
+    <string name="my_errors">My Errors</string>
+    <string name="multiple_choice">(Multiple Choice)</string>
+
+    <!-- N -->
+    <string name="next_question">Next Question</string>
+    <string name="no_data">No Data</string>
+
+    <!-- P -->
+    <string name="please_make_a_choice">Please make a choice</string>
+
+    <!-- Q -->
+    <string name="qa_test">QA Test</string>
+
+    <!-- S -->
+    <string name="single_choice">(Single Choice)</string>
+    <string name="start_test">Start Test</string>
+
+    <!-- T -->
+    <string name="test_single_choice">Single Choice</string>
+    <string name="test_single_choice_with_pictures">Single Choice With Pictures</string>
+    <string name="test_multiple_choice">Multiple Choice</string>
+    <string name="test_true_or_false">True Or False</string>
+    <string name="tips">Tips</string>
+    <string name="true_or_false">(True or False)</string>
+
+    <!-- W -->
+    <string name="what_is_your_choice">What is your choice?</string>
 
 </resources>
