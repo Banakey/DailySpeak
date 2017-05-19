@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.software.upc.fluency.R;
+import com.software.upc.fluency.activity.SpeakActivity;
 import com.software.upc.fluency.activity.TestActivity;
 
 
@@ -29,6 +30,13 @@ public class TestFragment extends Fragment {
             }
         });
         vTestButton = (Button)view.findViewById(R.id.btn_voicetest);
+        vTestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SpeakActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 }
