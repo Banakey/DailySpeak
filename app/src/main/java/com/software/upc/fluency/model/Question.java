@@ -37,6 +37,16 @@ public class Question extends BmobObject{
         }
         return null;
     }
+    private int questionNum;
+
+    public int getQuestionNum() {
+        return questionNum;
+    }
+
+    public void setQuestionNum(int questionNum) {
+        this.questionNum = questionNum;
+    }
+
     //试题题目
     private String questionName;
     //题目答案

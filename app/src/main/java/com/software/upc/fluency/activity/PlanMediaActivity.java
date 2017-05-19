@@ -43,6 +43,14 @@ public class PlanMediaActivity extends AppCompatActivity {
 
         Bundle b=getIntent().getExtras();
         Plan plan =(Plan) b.getSerializable("plan");
+        String stuName = plan.getStudyTheme();
+//        BmobQuery<StudyItem> bmobQuery =new BmobQuery<StudyItem>();
+//        bmobQuery.findObjects(new FindListener<StudyItem>() {
+//            @Override
+//            public void done(List<StudyItem> list, BmobException e) {
+//
+//            }
+//        });
         //System.out.print(url);
         //text.setText(plan.getStudyText());
         initMediaPlayer();

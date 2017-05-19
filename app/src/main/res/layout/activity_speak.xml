@@ -135,24 +135,14 @@
                     android:orientation="horizontal"
                     android:background="@drawable/answer_choose_bg"
                     android:padding="@dimen/home_menu_margin_8" >
-
-
-                    <EditText
-                        android:id="@+id/et_answer"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/et_answer"
-                        android:gravity="center"
-                        android:scrollbars="vertical"
-                        android:layout_gravity="center_horizontal"/>
                 </LinearLayout>
 
             </LinearLayout>
-                <Button
-                    android:id="@+id/btn_commit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_commit"/>
+            <Button
+                android:id="@+id/btn_longspeak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/longclick_speak"/>
         </LinearLayout>
 
     </ScrollView>

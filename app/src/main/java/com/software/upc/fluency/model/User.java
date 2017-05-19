@@ -10,6 +10,15 @@ import cn.bmob.v3.BmobUser;
 
 public class User extends BmobUser {
     private String avatar;
+//    private int score;
+//
+//    public int getScore() {
+//        return score;
+//    }
+//
+//    public void setScore(int score) {
+//        this.score = score;
+//    }
 
     public User(){}
 

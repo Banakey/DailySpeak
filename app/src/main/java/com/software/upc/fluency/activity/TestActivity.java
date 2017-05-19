@@ -1,5 +1,6 @@
 package com.software.upc.fluency.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class TestActivity extends AppCompatActivity {
                     }
                     //创建自定义Adapter的对象
                     adapter = new ExamAdapter(TestActivity.this,list);
+                    mExam = list;
                     //将布局添加到ListView中
                     examList.setAdapter(adapter);
                     Toast.makeText(TestActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
@@ -61,11 +63,12 @@ public class TestActivity extends AppCompatActivity {
                                     int position, long id) {
                 // TODO mp3播放
                 Exam exam = mExam.get(position);
+//                String examname = exam.getQuestionName();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("exam", exam);
-//                Intent intent = new Intent(TestActivity.class,StudyActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                Intent intent = new Intent(TestActivity.this,QuestionActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }

@@ -102,6 +102,8 @@
         </activity>
         <activity android:name=".activity.QuestionActivity">
         </activity>
+        <activity android:name=".activity.SpeakActivity">
+        </activity>
     </application>
 
 </manifest>

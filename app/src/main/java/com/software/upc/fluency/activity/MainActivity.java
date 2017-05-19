@@ -3,6 +3,7 @@ package com.software.upc.fluency.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.software.upc.fluency.R;
+import com.software.upc.fluency.model.Grade;
 import com.software.upc.fluency.model.User;
 
 import cn.bmob.v3.exception.BmobException;
@@ -76,6 +78,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void done(User user, BmobException e) {
                 if(e==null){
                     Toast.makeText(MainActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                    Grade gradeNew = new Grade();
+                    gradeNew.setUserName(name);
+                    gradeNew.setScore(0);
+                    gradeNew.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e==null){
+                                Toast.makeText(MainActivity.this,"不存在用户",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                            }
+                        }
+                    });
                 }else{
                     Toast.makeText(MainActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
                     //Log.e("注册失败"+e.getMessage());
